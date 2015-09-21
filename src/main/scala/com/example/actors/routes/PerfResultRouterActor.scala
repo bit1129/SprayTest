@@ -25,16 +25,31 @@ object PerfResultRouterActor {
  * To run the front end app in dev mode change "dist" to "app"
  */
 class PerfResultRouterActor(personRoute: ActorRef) extends Actor
-  with HttpService
-  with ActorLogging {
+with HttpService
+with ActorLogging {
 
   def actorRefFactory = context
+
   def receive = runRoute {
     compressResponseIfRequested() {
-      pathPrefix("data")  { ctx => personRoute ! ctx } ~
-        pathPrefix("htmls") { get { getFromResourceDirectory("htmls") } } ~
-        pathPrefix("csses") { get { getFromResourceDirectory("csses") } } ~
-        pathPrefix("scripts") { get { getFromResourceDirectory("scripts") } }
+      pathPrefix("perf") {
+        pathPrefix("data") { ctx => personRoute ! ctx }
+      } ~
+        pathPrefix("htmls") {
+          get {
+            getFromResourceDirectory("htmls")
+          }
+        } ~
+        pathPrefix("csses") {
+          get {
+            getFromResourceDirectory("csses")
+          }
+        } ~
+        pathPrefix("scripts") {
+          get {
+            getFromResourceDirectory("scripts")
+          }
+        }
     }
 
   }

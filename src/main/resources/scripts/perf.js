@@ -34,7 +34,7 @@ $(document).ready(function (evt) {
         return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec
     }
 
-    var url = "/data"
+    var url = "/perf/data"
 
     $.get(url)
         .success(function (responseText) {

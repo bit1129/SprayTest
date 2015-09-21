@@ -4,6 +4,7 @@ import akka.actor.Actor
 import akka.actor.ActorRef
 import akka.actor.ActorLogging
 import akka.actor.Props
+import com.example.data.Results
 import spray.routing.HttpService
 
 /**
@@ -33,7 +34,10 @@ with ActorLogging {
   def receive = runRoute {
     compressResponseIfRequested() {
       pathPrefix("perf") {
-        pathPrefix("data") { ctx => personRoute ! ctx }
+        pathPrefix("data") {
+          println("Hello.................perf data")
+          complete(Results.get())
+        }
       } ~
         pathPrefix("htmls") {
           get {

@@ -1,7 +1,6 @@
 package com.example.actors.routes
 
-import com.example.data.PerfResultCollector
-import com.example.services.PersonService
+import com.example.data.{Results, PerfResultCollector}
 import akka.actor.Props
 import spray.http.{HttpResponse, StatusCodes}
 import spray.routing.HttpService
@@ -11,33 +10,29 @@ import akka.actor.Actor
 /**
 * Factory method for Props configuration files for actors
 */
-object PersonRoute {
-  def props: Props = Props(new PersonRoute())
+object DataRouter {
+  def props: Props = Props(new DataRouter())
 }
 
 /**
  * Actor that handles requests that begin with "person"
  */
-class PersonRoute() extends Actor with PersonRouteTrait {
+class DataRouter() extends Actor with DataRouterTrait {
   def actorRefFactory = context
-  def receive = runRoute(personRoute)
+  def receive = runRoute(sqlPerfDataRouter)
 }
 
 /**
  * Separate routing logic in an HttpService trait so that the
  * routing logic can be tested outside of an actor system in specs/mockito tests
  */
-trait PersonRouteTrait extends HttpService with SprayJsonSupport{
+trait DataRouterTrait extends HttpService with SprayJsonSupport{
 
-  private val personService = PersonService
-//  val log = LoggerFactory.getLogger(classOf[PersonRouteTrait])
-
-  val personRoute = {
+  val sqlPerfDataRouter = {
     get {
       pathEnd {
         complete {
-          println("Hitting Get All Persons")
-          HttpResponse(entity=PerfResultCollector.getDataAsJson())
+          HttpResponse(entity=Results.get())
         }
       }
     }

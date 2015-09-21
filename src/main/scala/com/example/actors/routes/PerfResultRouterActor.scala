@@ -9,8 +9,8 @@ import spray.routing.HttpService
 /**
  * Factory method for Props configuration files for actors
  */
-object ApiRouterActor {
-  def props(personRoute: ActorRef): Props = Props(new ApiRouterActor(personRoute))
+object PerfResultRouterActor {
+  def props(personRoute: ActorRef): Props = Props(new PerfResultRouterActor(personRoute))
 }
 
 /**
@@ -24,7 +24,7 @@ object ApiRouterActor {
  *
  * To run the front end app in dev mode change "dist" to "app"
  */
-class ApiRouterActor(personRoute: ActorRef) extends Actor
+class PerfResultRouterActor(personRoute: ActorRef) extends Actor
   with HttpService
   with ActorLogging {
 
@@ -32,9 +32,9 @@ class ApiRouterActor(personRoute: ActorRef) extends Actor
   def receive = runRoute {
     compressResponseIfRequested() {
       pathPrefix("data")  { ctx => personRoute ! ctx } ~
-        pathPrefix("html") { get { getFromResourceDirectory("html") } } ~
-        pathPrefix("css") { get { getFromResourceDirectory("css") } } ~
-        pathPrefix("js") { get { getFromResourceDirectory("js") } }
+        pathPrefix("htmls") { get { getFromResourceDirectory("htmls") } } ~
+        pathPrefix("csses") { get { getFromResourceDirectory("csses") } } ~
+        pathPrefix("scripts") { get { getFromResourceDirectory("scripts") } }
     }
 
   }

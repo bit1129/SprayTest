@@ -1,8 +1,8 @@
 package com.example.config
 
 import akka.actor.ActorSystem
-import com.example.actors.routes.ApiRouterActor
-import com.example.actors.routes.PersonRoute
+import com.example.actors.routes.PerfResultRouterActor
+import com.example.actors.routes.DataRouter
 
 /**
  * Factory method for ActorSystemBean class
@@ -17,9 +17,9 @@ object ActorSystemBean {
  */
 class ActorSystemBean {
 
-  implicit val system = ActorSystem("person")
+  implicit val system = ActorSystem("sql-perf-render")
 
-  lazy val personRoute = system.actorOf(PersonRoute.props, "person-route")
-  lazy val apiRouterActor = system.actorOf(ApiRouterActor.props(personRoute), "api-router")
+  lazy val sqlPerfDataRouterActor = system.actorOf(DataRouter.props, "sql-perf-data-router")
+  lazy val sqlPerfRouterActor = system.actorOf(PerfResultRouterActor.props(sqlPerfDataRouterActor), "sql-perf-router")
 
 }

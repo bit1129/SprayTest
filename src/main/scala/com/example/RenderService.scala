@@ -30,7 +30,8 @@ class RenderServiceActor extends Actor with RenderService {
     case HttpRequest(GET, Uri.Path("/ping"), _, _, _) =>
       sender ! HttpResponse(entity = "PONG!")
     case _ =>
-      sender ! HttpResponse(entity = "Unknown Requeest!")
+      println("Hello,RenderService")
+     runRoute(getFromResourceDirectory("abc.txt"))
   }
 }
 

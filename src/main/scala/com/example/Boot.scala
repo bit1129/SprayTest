@@ -9,9 +9,9 @@ import spray.servlet.WebBoot
 class Boot extends WebBoot {
 
   // we need an ActorSystem to host our application in
-  val system = ActorSystem("example")
+  val system = ActorSystem("RenderActor")
 
   // the service actor replies to incoming HttpRequests
-  val serviceActor = system.actorOf(Props[MyServiceActor])
+  val serviceActor = system.actorOf(Props[RendereServiceActor])
 
 }

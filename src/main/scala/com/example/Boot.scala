@@ -12,6 +12,6 @@ class Boot extends WebBoot {
   val system = ActorSystem("RenderActor")
 
   // the service actor replies to incoming HttpRequests
-  val serviceActor = system.actorOf(Props[RendereServiceActor])
+  val serviceActor = system.actorOf(Props[RenderServiceActor])
 
 }
